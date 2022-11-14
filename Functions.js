@@ -8,7 +8,6 @@ let gameOver = false;
 let wordList = ["SQUID", "APPLE", "CARLO", "DAVID"];
 let word = wordList[Math.floor(Math.random() * wordList.length)]
 let button = document.getElementsByClassName("button")
-let score = 0;
 
 
 window.onload = function () {
@@ -27,19 +26,19 @@ function creatBoard() {
         }
     }
 }
-
-function resetBoard() {
-    document.getElementById("board").innerHTML = "";
-    col = row = 0;
-    creatBoard();
-    intialize();
-}
+//
+// function resetBoard() {
+//     document.getElementById("board").innerHTML = "";
+//     col = row = 0;
+//     creatBoard();
+//     intialize();
+// }
 
 function intialize() {
     document.addEventListener("keyup", (e) => {
         // alert(e.code)
         if (gameOver) {
-            resetBoard();
+            return;
         }
 
         if ("KeyA" <= e.code && e.code < "KeyZ") {
@@ -49,6 +48,9 @@ function intialize() {
                 if (currTile.innerText === "") {
                     currTile.innerText = e.code[3];
                     col += 1;
+                    if (currTile.innerText === ""){
+                      pr
+                    }
 
                 }
             }
@@ -68,9 +70,6 @@ function intialize() {
         if (!gameOver && row === height) {
             gameOver = true;
             document.getElementById("answer").innerText = word;
-            score -= 5;
-            document.getElementById("score").innerText =
-                "score : " + score;
         }
     })
 }
@@ -92,9 +91,6 @@ function update() {
             currTile.classList.add("absent")
         }
         if (correct === width) {
-            score += 10
-            document.getElementById("score").innerText =
-                "score : " + score;
             gameOver = true
         }
 
