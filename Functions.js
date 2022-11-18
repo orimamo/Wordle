@@ -49,7 +49,7 @@ function intialize() {
                     currTile.innerText = e.code[3];
                     col += 1;
                     if (currTile.innerText === ""){
-                      pr
+
                     }
 
                 }
@@ -61,7 +61,7 @@ function intialize() {
             let currTile = document.getElementById(row.toString() + "-"
                 + col.toString())
             currTile.innerText = "";
-        } else if (e.code === "Enter") {
+        } else if (e.code === "Enter" && col===5) {
             update();
             row += 1;
             col = 0;
@@ -75,7 +75,25 @@ function intialize() {
 }
 
 function update() {
+    let guess="";
+    document.getElementById("answer").innerText="";
+
+
+    //התחלת התהליך
     let correct = 0;
+    let letterCounter={};
+    for (let i=0;i<word.length;i++){
+        letter=word[i];
+        if (letterCounter[letter]){
+            letterCounter[letter] +=1;
+        }
+        else {
+            letterCounter[letter]=1;
+        }
+    }
+
+
+    //איטרציה ראשונה בודקת את כל האותיות הנכונות
     for (let i = 0; i < width; i++) {
         let currTile = document.getElementById(row.toString() + "-"
             + i.toString())
@@ -85,14 +103,28 @@ function update() {
         if (word[i] === letter) {
             currTile.classList.add("correct")
             correct += 1;
-        } else if (word.includes(letter)) {
-            currTile.classList.add("present")
-        } else {
-            currTile.classList.add("absent")
+            letterCounter[letter]-=1;
         }
         if (correct === width) {
             gameOver = true
         }
 
+    }
+//איטרציה שנייה בודקת את כל האותיות שקיימות במילה אך לא במיקומים נכונים
+    for (let j = 0; j < width; j++) {
+        let currTile = document.getElementById(row.toString() + "-"
+            + j.toString())
+        let letter = currTile.innerText;
+
+        if(!currTile.classList.contains("correct")){
+            if (word.includes(letter) && letterCounter[letter]>0) {
+            currTile.classList.add("present")
+            letterCounter[letter]-=1;
+        } else {
+            currTile.classList.add("absent")
+        }
+
+
+        }
     }
 }
