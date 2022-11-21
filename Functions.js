@@ -5,19 +5,26 @@ let row = 0;
 let col = 0;
 
 let gameOver = false;
-let wordList = ["SQUID", "APPLE", "CARLO", "DAVID"];
+let wordList = ["אפרסק", "תמרור", "אבטיח", "אריאל",""];
 let word = wordList[Math.floor(Math.random() * wordList.length)]
 let button = document.getElementsByClassName("button")
 
 
 window.onload = function () {
-    creatBoard();
-    intialize();
+    initialize();
 }
 
-function creatBoard() {
-    for (let r = 0; r < height; r++) {
-        for (let c = 0; c < width; c++) {
+
+function processKey(){
+        let e = { "code" : this.id};
+        processInput(e);
+ }
+
+
+
+function initialize() {
+    for (let r = 0;r < height; r++) {
+        for (let c = width-1; c >= 0; c--) {
             let tile = document.createElement("span")
             tile.id = r.toString() + "-" + c.toString();
             tile.classList.add("tile");
@@ -25,65 +32,87 @@ function creatBoard() {
             document.getElementById("board").appendChild(tile);
         }
     }
-}
-//
-// function resetBoard() {
-//     document.getElementById("board").innerHTML = "";
-//     col = row = 0;
-//     creatBoard();
-//     intialize();
-// }
+    let keyboard=[
+        ["ENTER","ק","ר","א","ט","ו","ן","ם","פ"],
+        ["ש","ד","ג","כ","ע","י","ח","ל","ך","ף"],
+        ["ז","ס","ב","ה","נ","מ","צ","ת","ץ","DEL"]
+    ];
+    for (let i = 0; i < keyboard.length; i++) {
+        let currRow = keyboard[i];
+        let keyboardRow = document.createElement("div");
+        keyboardRow.classList.add("keyboard-row");
 
-function intialize() {
+        for (let j = 0; j < currRow.length; j++) {
+            let keyTile = document.createElement("div");
+            let key = currRow[j];
+            keyTile.innerText = key;
+            if (key === "ENTER") {
+                keyTile.id = "Enter";
+            } else if (key === "DEL") {
+                keyTile.id = "Backspace";
+            }
+            else if ( "א" <= key && "ת" >= key) {
+                keyTile.id = key;
+            }
+            keyTile.addEventListener("click",processKey);
+            if (key == "ENTER") {
+                keyTile.classList.add("enter-key-tiles");
+            } else {
+                keyTile.classList.add("key-tiles");
+            }
+            keyboardRow.appendChild(keyTile);
+        }
+        document.body.appendChild(keyboardRow);
+    }
+
     document.addEventListener("keyup", (e) => {
-        // alert(e.code)
-        if (gameOver) {
-            return;
-        }
-
-        if ("KeyA" <= e.code && e.code < "KeyZ") {
-            if (col < width) {
-                let currTile = document.getElementById(row.toString()
-                    + '-' + col.toString());
-                if (currTile.innerText === "") {
-                    currTile.innerText = e.code[3];
-                    col += 1;
-                    if (currTile.innerText === ""){
-
-                    }
-
-                }
-            }
-        } else if (e.code === "Backspace") {
-            if (0 < col && col <= width) {
-                col -= 1
-            }
-            let currTile = document.getElementById(row.toString() + "-"
-                + col.toString())
-            currTile.innerText = "";
-        } else if (e.code === "Enter" && col===5) {
-            update();
-            row += 1;
-            col = 0;
-        }
-
-        if (!gameOver && row === height) {
-            gameOver = true;
-            document.getElementById("answer").innerText = word;
-        }
+        processInput(e);
     })
+}
+function processInput(e){
+    if (gameOver) {
+        return;
+    }
+
+    if ("א" <= e.code && e.code <= "ת") {
+        if (col < width) {
+            let currTile = document.getElementById(row.toString()
+               + "-" + col.toString());
+            if (currTile.innerText == "") {
+                currTile.innerText = e.code[0];
+                col += 1;
+            }
+        }
+    } else if (e.code == "Backspace") {
+        if (0 < col && col <= width) {
+            col -= 1
+        }
+        let currTile = document.getElementById(row.toString() + "-"
+            + col.toString())
+        currTile.innerText = "";
+    } else if (e.code == "Enter" ) {
+        update();
+        row += 1;
+        col = 0;
+    }
+
+    if (!gameOver && row === height) {
+        gameOver = true;
+        document.getElementById("answer").innerText = word;
+    }
+
 }
 
 function update() {
-    let guess="";
     document.getElementById("answer").innerText="";
 
 
     //התחלת התהליך
     let correct = 0;
     let letterCounter={};
+    let letter="";
     for (let i=0;i<word.length;i++){
-        letter=word[i];
+        letter =word[i];
         if (letterCounter[letter]){
             letterCounter[letter] +=1;
         }

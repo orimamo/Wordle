@@ -22,7 +22,7 @@ title {
 }
 
 .tile {
-    border: 2px solid lightgrey;
+    border: 2px solid black;
     width: 60px;
     height: 60px;
     margin: 2.5px;
@@ -57,5 +57,41 @@ title {
     position: absolute;
     margin: 20px 30px 30px -80px;
 }
+.keyboard-row{
+    width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
 
+.key-tiles {
+    /*box*/
+    border: 1px solid lightgrey;
+    width: 50px;
+    height: 50px;
+    margin: 1px;
+    /*text*/
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.enter-key-tiles {
+/*box*/
+
+border: 1px solid lightgrey;
+    width: 76px;
+    height: 40px;
+    margin: 1px;
+
+/*text*/
+
+font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
