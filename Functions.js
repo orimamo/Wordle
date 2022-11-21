@@ -5,7 +5,7 @@ let row = 0;
 let col = 0;
 
 let gameOver = false;
-let wordList = ["אפרסק", "תמרור", "אבטיח", "אריאל",""];
+let wordList = ["אפרסק", "תמרור", "אבטיח", "אריאל","שולחן","מדבקה","ברזיל","חולצה","מטייל","מגרפה","ספריה","מלגזה","עברית","מנודה","עניבה","מגרפה","מסעדה","מפלצת","הורתח","מריצה","מגירה"];
 let word = wordList[Math.floor(Math.random() * wordList.length)]
 let button = document.getElementsByClassName("button")
 
